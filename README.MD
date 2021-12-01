@@ -24,11 +24,11 @@ What to do:
   pulimi stack rm
   ``` 
 ### What I'd do differently on something bigger than a demo.
-have a domain in route53 to make a records and certs. 
-put passwords and ssh keys in a secret store of some sort.. Or skip the ssh keys and just use ssm console for puppet/ansible/whatever.
-create another S3 bucket and use that to back cloudfront for static content.
-use an ALB rather than a classic elb. trying to stick to free tier here.
-Implement a better bucket policy apply method.
+have a domain in route53 to make a records and certs.   
+put passwords and ssh keys in a secret store of some sort.. Or skip the ssh keys and just use ssm console for puppet/ansible/whatever.    
+create another S3 bucket and use that to back cloudfront for static content.    
+use an ALB rather than a classic elb. trying to stick to free tier here.   
+Implement a better bucket policy apply method.   
 
 
 
