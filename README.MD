@@ -1,9 +1,9 @@
-This is a quick hack bumped out in 4ish hours - would be better with loops and better array management.
->   "If I had more time, I'd write a shorter letter"
+This is a quick hack bumped out in 4ish hours - would be better with loops and better array management.   
+>   "If I had more time, I'd write a shorter letter"   
 >     --Someone cool
 
 What to do:
-  Install pulumi - https://www.pulumi.com/docs/get-started/aws/begin/
+  Install pulumi - https://www.pulumi.com/docs/get-started/aws/begin/   
   setup your account at pulumi, it's free.
   ```
   mkdir src
