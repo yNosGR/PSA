@@ -3,19 +3,18 @@ This is a quick hack bumped out in 4ish hours - would be better with loops and b
      --Someone cool
 
 What to do:
-  # Install pulumi - https://www.pulumi.com/docs/get-started/aws/begin/
-  # setup your account at pulumi, it's free.
+  Install pulumi - https://www.pulumi.com/docs/get-started/aws/begin/
+  setup your account at pulumi, it's free.
   mkdir src
   cd src
-  pulimi new https://github.com/yNosGR/PSA.git
+  pulumi new https://github.com/yNosGR/PSA.git
     yes
   pulumi up
     yes
-  # due to a S3 policy bug I couldnt work out in a reasonable amount of time, you need to run this twice.
+  due to a S3 policy bug I couldnt work out in a reasonable amount of time, you need to run this twice.
   pulumi up
     yes
-  # play
-  # check the elb address listed as an output
+  check the elb address listed as an output
   pulumi destroy
   pulimi stack rm
   
