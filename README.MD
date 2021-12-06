@@ -30,7 +30,9 @@ What to do:
 - Put passwords and ssh keys in a secret store of some sort.. Or skip the ssh keys and just use ssm console for puppet/ansible/whatever.    
 - Create another S3 bucket and use that to back cloudfront for static content.    
 - Use an ALB rather than a classic elb. trying to stick to free tier here.   
-- Implement a better bucket policy apply method.   
+- Use autoscaling groups to manage the number of instances behind the lb.
+- Implement a better bucket policy apply method. 
+  
 
 
 
