@@ -32,7 +32,7 @@ ec2SecurityGroup = pulumi_aws.ec2.SecurityGroup(
         )])
 
 #create the ec2 cloudwatch policy
-cloudwatchpolicy = pulumi_aws.iam.Policy("psa-ec2-cloudwatch",
+cloudwatchpolicy = pulumi_aws.iam.Policy("tsa-ec2-cloudwatch",
     path="/",
     description="EC2 cloudwatch policy",
     policy=json.dumps({
@@ -54,7 +54,7 @@ cloudwatchpolicy = pulumi_aws.iam.Policy("psa-ec2-cloudwatch",
 }))
 
 #make the ec2-instance-role
-ec2InstanceRole = pulumi_aws.iam.Role("psa-ec2-attach-role",
+ec2InstanceRole = pulumi_aws.iam.Role("tsa-ec2-attach-role",
     assume_role_policy=json.dumps({
         "Version": "2012-10-17",
         "Statement": [{
@@ -105,7 +105,7 @@ sudo cat <<_EOF >> mywebservice.sh
 test -d /usr/share/nginx/html || mkdir /usr/share/nginx/html
 cd /usr/share/nginx/html
 #echo "Hello, World! from " $(hostname) > index.html
-while true ; do echo "Hello, World! from " $(hostname) " mysql db uptime is:"> index.html ;  mysql -upsadbuser -p'pleasedontusethishorriblepassword' -hpsa-db1.c7ttwsa3oqdo.us-east-1.rds.amazonaws.com -P 5432 --skip-column-names -B -e 'SHOW /*!50002 GLOBAL */ STATUS LIKE "Uptime"' >> index.html ; sleep 1; done | logger -t mysqlUpdater 
+while true ; do echo "Hello, World! from " $(hostname) " mysql db uptime is:"> index.html ;  mysql -utsadbuser -p'pleasedontusethishorriblepassword' -htsa-db1.c7ttwsa3oqdo.us-east-1.rds.amazonaws.com -P 5432 --skip-column-names -B -e 'SHOW /*!50002 GLOBAL */ STATUS LIKE "Uptime"' >> index.html ; sleep 1; done | logger -t mysqlUpdater 
 
 _EOF
 
@@ -133,7 +133,7 @@ sudo systemctl start mywebservice
 
 #create 2 ec2 instances
 ec2instances = [pulumi_aws.ec2.Instance(
-    resource_name="pulumi-aws-PSA0",
+    resource_name="pulumi-aws-TSA0",
     availability_zone=vpc.availableZones.names[0],
     vpc_security_group_ids=[ec2SecurityGroup.id],
     subnet_id=vpc.subnet_application0.id,
@@ -142,11 +142,11 @@ ec2instances = [pulumi_aws.ec2.Instance(
     ami=ami.id,
     user_data=user_data,
     tags={
-        "Name": "PSA1",
+        "Name": "TSA0",
     }
 ),
 pulumi_aws.ec2.Instance(
-    resource_name="pulumi-aws-PSA1",
+    resource_name="pulumi-aws-TSA1",
     availability_zone=vpc.availableZones.names[1],
     vpc_security_group_ids=[ec2SecurityGroup.id],
     subnet_id=vpc.subnet_application1.id,
@@ -155,7 +155,7 @@ pulumi_aws.ec2.Instance(
     ami=ami.id,
     user_data=user_data,
     tags={
-        "Name": "PSA2",
+        "Name": "TSA2",
     }
 )
 ]
@@ -179,12 +179,12 @@ elbSecurityGroup = pulumi_aws.ec2.SecurityGroup(
 )])
 
 # and now the classic lb - because it's easier
-PSAelb = pulumi_aws.elb.LoadBalancer("psaELB",
+TSAelb = pulumi_aws.elb.LoadBalancer("tsaELB",
     security_groups=[elbSecurityGroup.id],
     subnets=[vpc.subnet_elb0,vpc.subnet_elb1],
     access_logs=pulumi_aws.elb.LoadBalancerAccessLogsArgs(
         bucket=s3.bucket.id,
-        bucket_prefix="psa-elb-logs",
+        bucket_prefix="tsa-elb-logs",
         interval=60,
     ),
     listeners=[
@@ -209,6 +209,6 @@ PSAelb = pulumi_aws.elb.LoadBalancer("psaELB",
     connection_draining_timeout=400,
     opts=pulumi.resource.ResourceOptions(depends_on=s3.bucket),
     tags={
-        "Name": "PSA-example-elb",
+        "Name": "TSA-example-elb",
     })
-pulumi.export('PSAelb', PSAelb.dns_name)
+pulumi.export('TSAelb', TSAelb.dns_name)

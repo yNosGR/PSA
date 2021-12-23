@@ -1,4 +1,4 @@
-## PSA Infrastructure Assessment
+## Infrastructure Technical Skills Assessment 
 
 This is a quick hack bumped out in 4ish hours - would be better with loops and better array management.   
 >   "If I had more time, I'd write a shorter letter"   
@@ -10,7 +10,7 @@ What to do:
   ```
   mkdir src
   cd src
-  pulumi new https://github.com/yNosGR/PSA.git
+  pulumi new https://github.com/yNosGR/TSA.git
     yes
   pulumi up
     yes
