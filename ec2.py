@@ -132,33 +132,53 @@ sudo systemctl start mywebservice
 """
 
 #create 2 ec2 instances
-ec2instances = [pulumi_aws.ec2.Instance(
-    resource_name="pulumi-aws-TSA0",
-    availability_zone=vpc.availableZones.names[0],
-    vpc_security_group_ids=[ec2SecurityGroup.id],
-    subnet_id=vpc.subnet_application0.id,
-    instance_type='t2.micro',
-    iam_instance_profile=ec2InstanceRole_profile.name,
-    ami=ami.id,
+#ec2instances = [pulumi_aws.ec2.Instance(
+#    resource_name="pulumi-aws-TSA0",
+#    availability_zone=vpc.availableZones.names[0],
+#    vpc_security_group_ids=[ec2SecurityGroup.id],
+#    subnet_id=vpc.subnet_application0.id,
+#    instance_type='t2.micro',
+#    iam_instance_profile=ec2InstanceRole_profile.name,
+#    ami=ami.id,
+#    user_data=user_data,
+#    tags={
+#        "Name": "TSA0",
+#    }
+#),
+#pulumi_aws.ec2.Instance(
+#    resource_name="pulumi-aws-TSA1",
+#    availability_zone=vpc.availableZones.names[1],
+#    vpc_security_group_ids=[ec2SecurityGroup.id],
+#    subnet_id=vpc.subnet_application1.id,
+#    instance_type='t2.micro',
+#    iam_instance_profile=ec2InstanceRole_profile,
+#    ami=ami.id,
+#    user_data=user_data,
+#    tags={
+#        "Name": "TSA2",
+#    }
+#)
+#]
+
+simpleLaunchconfig = pulumi_aws.ec2.LaunchConfiguration("simpleLaunchConfig",
+    image_id=ami.id,
+    instance_type="t2.micro",
+    security_groups=[ec2SecurityGroup.id],
     user_data=user_data,
-    tags={
-        "Name": "TSA0",
-    }
-),
-pulumi_aws.ec2.Instance(
-    resource_name="pulumi-aws-TSA1",
-    availability_zone=vpc.availableZones.names[1],
-    vpc_security_group_ids=[ec2SecurityGroup.id],
-    subnet_id=vpc.subnet_application1.id,
-    instance_type='t2.micro',
+    name_prefix="TSA-example-",
     iam_instance_profile=ec2InstanceRole_profile,
-    ami=ami.id,
-    user_data=user_data,
-    tags={
-        "Name": "TSA2",
-    }
 )
-]
+
+myASG = pulumi_aws.autoscaling.Group("myASG",
+    vpc_zone_identifiers=[vpc.subnet_application0.id,vpc.subnet_application1.id],
+    desired_capacity=2,
+    max_size=4,
+    min_size=2,
+    health_check_type="ELB",
+    health_check_grace_period=90,
+    force_delete=True,
+    launch_configuration=simpleLaunchconfig,
+)
 
 #create the lb sg
 elbSecurityGroup = pulumi_aws.ec2.SecurityGroup(
@@ -179,7 +199,7 @@ elbSecurityGroup = pulumi_aws.ec2.SecurityGroup(
 )])
 
 # and now the classic lb - because it's easier
-TSAelb = pulumi_aws.elb.LoadBalancer("tsaELB",
+tsaELB = pulumi_aws.elb.LoadBalancer("tsaELB",
     security_groups=[elbSecurityGroup.id],
     subnets=[vpc.subnet_elb0,vpc.subnet_elb1],
     access_logs=pulumi_aws.elb.LoadBalancerAccessLogsArgs(
@@ -202,7 +222,7 @@ TSAelb = pulumi_aws.elb.LoadBalancer("tsaELB",
         target="HTTP:80/index.html",
         interval=30,
     ),
-    instances=ec2instances,
+    #instances=ec2instances,
     cross_zone_load_balancing=True,
     idle_timeout=400,
     connection_draining=True,
@@ -210,5 +230,12 @@ TSAelb = pulumi_aws.elb.LoadBalancer("tsaELB",
     opts=pulumi.resource.ResourceOptions(depends_on=s3.bucket),
     tags={
         "Name": "TSA-example-elb",
-    })
-pulumi.export('TSAelb', TSAelb.dns_name)
+    }
+)
+
+asg_lb_attachment = pulumi_aws.autoscaling.Attachment("asgAttachment",
+  autoscaling_group_name=myASG.id,
+  elb=tsaELB.id
+)
+
+pulumi.export('TSAelb', tsaELB.dns_name)

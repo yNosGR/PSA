@@ -11,13 +11,12 @@ What to do:
   mkdir src
   cd src
   pulumi new https://github.com/yNosGR/TSA.git
-    yes
-  pulumi up
-    yes
+    give it a name if you want, otherwise hit enter a few times
+  pulumi up -y
   ```
-  due to a S3 policy bug I couldnt work out in a reasonable amount of time, you need to run this twice.
+  due to a S3 policy bug I couldnt work out in a reasonable amount of time, you need to run this twice. It fails with the ELB not being able to write logs to the bucket. Running it a second time fixes it.
   ```
-  pulumi up
+  pulumi up -y
     yes
   ```
   check the elb address listed as an output
@@ -27,12 +26,11 @@ What to do:
   ``` 
 ### What I'd do differently on something bigger than a demo.
 - Have a domain in route53 to make a records and certs.   
-- Put passwords and ssh keys in a secret store of some sort.. Or skip the ssh keys and just use ssm console for puppet/ansible/whatever.    
+- Put DB passwords in a secret keystore of some sort..  
+- Config puppet/ansible/whatever to deploy the app via SSM.    
 - Create another S3 bucket and use that to back cloudfront for static content.    
 - Use an ALB rather than a classic elb. trying to stick to free tier here.   
-- Use autoscaling groups to manage the number of instances behind the lb.
+- ~~Use autoscaling groups to manage the number of instances behind the lb.~~
 - Implement a better bucket policy apply method. 
   
-
-
 
