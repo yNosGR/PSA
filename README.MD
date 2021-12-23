@@ -8,10 +8,10 @@ What to do:
   Install pulumi - https://www.pulumi.com/docs/get-started/aws/begin/   
   setup your account at pulumi, it's free.
   ```
-  mkdir src
-  cd src
+  mkdir CraigsTSA
+  cd CraigsTSA
   pulumi new https://github.com/yNosGR/TSA.git
-    give it a name if you want, otherwise hit enter a few times
+    #give it a name if you want, otherwise hit enter a few times
   pulumi up -y
   ```
   due to a S3 policy bug I couldnt work out in a reasonable amount of time, you need to run this twice. It fails with the ELB not being able to write logs to the bucket. Running it a second time fixes it.
@@ -19,17 +19,17 @@ What to do:
   pulumi up -y
     yes
   ```
-  check the elb address listed as an output
+  Once the ASG and LB are happy check the elb address listed as an output
   ```
   pulumi destroy
   pulimi stack rm
   ``` 
 ### What I'd do differently on something bigger than a demo.
-- Have a domain in route53 to make a records and certs.   
+- Have a domain in route53 to make a records and certs. This would fix the hardcoding DB in user_data.  
 - Put DB passwords in a secret keystore of some sort..  
-- Config puppet/ansible/whatever to deploy the app via SSM.    
+- Setup user_data to deploy/register puppet/ansible/salt/whatever and deploy the app via SSM.    
 - Create another S3 bucket and use that to back cloudfront for static content.    
-- Use an ALB rather than a classic elb. trying to stick to free tier here.   
+- Use an ALB rather than a classic elb.   
 - ~~Use autoscaling groups to manage the number of instances behind the lb.~~
 - Implement a better bucket policy apply method. 
   
