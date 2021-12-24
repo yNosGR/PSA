@@ -29,7 +29,7 @@ done
 
 printf "\n\n\n"
 
-# Check to see if we want to delete this or not, assume no if no answer in 30 seconds
+# Check to see if we want to delete this or not
 read -t 10 -p "Do you want to destroy the env? Y/n : " yn
 
 # assume if they let it time out that they want to delete it
