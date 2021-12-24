@@ -7,6 +7,7 @@ This is a quick hack bumped out in 4ish hours - would be better with loops and b
 Currently this code will:
 - Deploy a couple subnets to house a database, a couple subnets to house the load balancer, and a couple subnets to house a variable number of nodes managed by an autoscaler. 
 - The nodes will display some plain text showing their hostname and the uptime of the database they are connecting to.
+- output the URL you can use to hit the ELB, the DB name in case you need to update this script, and the bucket used for logs and file storage. 
 
 
 ## What to do:
@@ -29,6 +30,8 @@ Currently this code will:
   pulumi destroy
   pulimi stack rm
   ``` 
+  [![asciicast](https://asciinema.org/a/9s1zch4sGCq9tMFcG8lEnnZoW.svg)](https://asciinema.org/a/9s1zch4sGCq9tMFcG8lEnnZoW)
+  
 ## What I'd do differently on something bigger than a demo.
 - Have a domain in route53 to make a records and certs. This would fix the hardcoding DB in user_data.  
 - Put DB passwords in a secret keystore of some sort..  
