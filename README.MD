@@ -27,6 +27,10 @@ Currently this code will:
   ```
   Once the ASG and LB are happy check the elb address listed as an output
   ```
+  watch curl -sm 1 $(pulumi stack output TSAelb)
+  ```
+  Now destroy it all
+  ```
   pulumi destroy
   pulimi stack rm
   ``` 
