@@ -23,7 +23,6 @@ Currently this code will:
   due to a S3 policy bug I couldnt work out in a reasonable amount of time, you need to run this twice. It fails with the ELB not being able to write logs to the bucket. Running it a second time fixes it.
   ```
   pulumi up -y
-    yes
   ```
   Once the ASG and LB are happy check the elb address listed as an output
   ```
