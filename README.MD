@@ -30,7 +30,7 @@ Currently this code will:
   pulumi destroy
   pulimi stack rm
   ``` 
-  [![asciicast](https://asciinema.org/a/9s1zch4sGCq9tMFcG8lEnnZoW.svg)](https://asciinema.org/a/9s1zch4sGCq9tMFcG8lEnnZoW)
+  [![asciicast](https://asciinema.org/a/DIbd8Cd6CF59gEcyuuRSOQqRg.svg)](https://asciinema.org/a/DIbd8Cd6CF59gEcyuuRSOQqRg)
   
 ## What I'd do differently on something bigger than a demo.
 - Have a domain in route53 to make a records and certs. This would fix the hardcoding DB in user_data.  
