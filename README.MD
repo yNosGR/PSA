@@ -32,7 +32,8 @@ Currently this code will:
   ```
   pulumi destroy
   pulimi stack rm
-  ``` 
+  ```
+## What it looks like when you run BuildMe.sh
   [![asciicast](https://asciinema.org/a/458306.svg)](https://asciinema.org/a/458306)
   
 ## What I'd do differently on something bigger than a demo.
