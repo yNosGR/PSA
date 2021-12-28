@@ -39,7 +39,7 @@ Currently this code will:
 ## What I'd do differently on something bigger than a demo.
 - Create a dashboard to see the cloudwatch stats.
 - Create SNS alarms that trigger when things get out of range.
-- Have a domain in route53 to make a records and certs. This would fix the hardcoding DB in user_data.  
+- Have a domain in route53 to make a records and certs. This would fix hardcoding the DB in user_data.  
 - Put DB passwords in a secret keystore of some sort..  
 - Setup user_data to deploy/register puppet/ansible/salt/whatever and deploy the app via SSM.    
 - Create another S3 bucket and use that to back cloudfront for static content.    
