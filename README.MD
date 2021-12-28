@@ -37,6 +37,8 @@ Currently this code will:
   [![asciicast](https://asciinema.org/a/458306.svg)](https://asciinema.org/a/458306)
   
 ## What I'd do differently on something bigger than a demo.
+- Create a dashboard to see the cloudwatch stats.
+- Create SNS alarms that trigger when things get out of range.
 - Have a domain in route53 to make a records and certs. This would fix the hardcoding DB in user_data.  
 - Put DB passwords in a secret keystore of some sort..  
 - Setup user_data to deploy/register puppet/ansible/salt/whatever and deploy the app via SSM.    
